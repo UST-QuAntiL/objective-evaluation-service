@@ -1,4 +1,7 @@
-from app.model.objective_request import TSPObjectiveFunctionRequest, MaxCutObjectiveFunctionRequest
+from app.model.objective_request import (
+    TSPObjectiveFunctionRequest,
+    MaxCutObjectiveFunctionRequest,
+)
 from app.model.objective_response import ObjectiveResponse
 from app.services.objectiveFunctions import F_CVaR, F_EE, F_Gibbs
 from app.services.visualization import TspVisualization, MaxCutVisualization
@@ -6,7 +9,9 @@ from app.constants import *
 
 
 def generate_tsp_objective_response(input: TSPObjectiveFunctionRequest):
-    objective_function = getObjectiveFunction(input.objFun, TSP, **input.objFun_hyperparameters)
+    objective_function = getObjectiveFunction(
+        input.objFun, TSP, **input.objFun_hyperparameters
+    )
     objective_value = objective_function.evaluate(input.counts, input.adj_matrix)
 
     if input.visualization:
@@ -21,7 +26,9 @@ def generate_tsp_objective_response(input: TSPObjectiveFunctionRequest):
 
 
 def generate_max_cut_objective_response(input: MaxCutObjectiveFunctionRequest):
-    objective_function = getObjectiveFunction(input.objFun, MAX_CUT, **input.objFun_hyperparameters)
+    objective_function = getObjectiveFunction(
+        input.objFun, MAX_CUT, **input.objFun_hyperparameters
+    )
     objective_value = objective_function.evaluate(input.counts, input.adj_matrix)
 
     graphic = (

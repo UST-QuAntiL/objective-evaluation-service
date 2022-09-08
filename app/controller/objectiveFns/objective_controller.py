@@ -32,7 +32,9 @@ blp = Blueprint(
 def tsp(json: TSPObjectiveFunctionRequest):
     print(json)
     if json:
-        return objective_service.generate_tsp_objective_response(TSPObjectiveFunctionRequest(**json))
+        return objective_service.generate_tsp_objective_response(
+            TSPObjectiveFunctionRequest(**json)
+        )
 
 
 @blp.route("/max-cut", methods=["POST"])
@@ -62,4 +64,6 @@ def tsp(json: TSPObjectiveFunctionRequest):
 def max_cut(json: MaxCutObjectiveFunctionRequest):
     print(json)
     if json:
-        return objective_service.generate_max_cut_objective_response(MaxCutObjectiveFunctionRequest(**json))
+        return objective_service.generate_max_cut_objective_response(
+            MaxCutObjectiveFunctionRequest(**json)
+        )

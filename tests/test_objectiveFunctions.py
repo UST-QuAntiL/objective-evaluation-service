@@ -69,14 +69,13 @@ class FlaskClientTestCase(unittest.TestCase):
                     },
                     "objFun": "CVaR",
                     "visualization": "True",
-                    "objFun_hyperparameters": {"alpha":0.5}
+                    "objFun_hyperparameters": {"alpha": 0.5},
                 }
             ),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 200)
         print(response.get_json())
-
 
     def test_Gibbs_value(self):
         response = self.client.post(
@@ -100,11 +99,10 @@ class FlaskClientTestCase(unittest.TestCase):
                     },
                     "objFun": "Gibbs",
                     "visualization": "True",
-                    "objFun_hyperparameters": {"eta":0.2}
+                    "objFun_hyperparameters": {"eta": 0.2},
                 }
             ),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 200)
         print(response.get_json())
-
