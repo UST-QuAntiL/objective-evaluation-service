@@ -1,57 +1,44 @@
-from app.model.objective_request import TSPObjectiveFunctionRequest
-from app.services.objectiveFns.tsp_objective import TSPObjective
+from app.model.objective_request import TSPObjectiveFunctionRequest, MaxCutObjectiveFunctionRequest
 from app.model.objective_response import ObjectiveResponse
 from app.services.objectiveFunctions import F_CVaR, F_EE, F_Gibbs
 from app.services.visualization import TspVisualization, MaxCutVisualization
 from app.constants import *
 
 
-def generate_tsp_objective_response(input):
-    adj_matrix = input.get("adj_matrix")
-    counts = input.get("counts")
-    objFun = input.get("objFun")
-    do_visualization = input.get("visualization")
+def generate_tsp_objective_response(input: TSPObjectiveFunctionRequest):
+    objective_function = getObjectiveFunction(input.objFun, TSP, **input.objFun_hyperparameters)
+    objective_value = objective_function.evaluate(input.counts, input.adj_matrix)
 
-    objective_function = getObjectiveFunction(objFun, TSP)
-    objective_value = objective_function.evaluate(counts, adj_matrix)
-
-    if do_visualization:
-        visualization = TspVisualization().visualize(
-            counts=objective_function.counts_cost, problem_instance=adj_matrix
+    if input.visualization:
+        graphic = TspVisualization().visualize(
+            counts=objective_function.counts_cost, problem_instance=input.adj_matrix
         )
     else:
-        visualization = None
+        graphic = None
 
-    # legacy function
-    # objective_value = TSPObjective.calc_objective(adj_matrix, counts, objFun)
     print("value", objective_value)
-    return ObjectiveResponse(objective_value, visualization, input)
+    return ObjectiveResponse(objective_value, graphic, input)
 
 
-def generate_max_cut_objective_response(input):
-    adj_matrix = input.get("adj_matrix")
-    counts = input.get("counts")
-    objFun = input.get("objFun")
-    do_visualization = input.get("visualization")
+def generate_max_cut_objective_response(input: MaxCutObjectiveFunctionRequest):
+    objective_function = getObjectiveFunction(input.objFun, MAX_CUT, **input.objFun_hyperparameters)
+    objective_value = objective_function.evaluate(input.counts, input.adj_matrix)
 
-    objective_function = getObjectiveFunction(objFun, MAX_CUT)
-    objective_value = objective_function.evaluate(counts, adj_matrix)
-
-    visualization = (
+    graphic = (
         MaxCutVisualization().visualize(
-            counts=objective_function.counts_cost, problem_instance=adj_matrix
+            counts=objective_function.counts_cost, problem_instance=input.adj_matrix
         )
-        if do_visualization
+        if input.visualization
         else None
     )
     print("value", objective_value)
-    return ObjectiveResponse(objective_value, visualization, input)
+    return ObjectiveResponse(objective_value, graphic, input)
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):
     if objFun.lower() == EXPECTATION:
         return F_EE(costFun)
     elif objFun.lower() == GIBBS:
-        return F_Gibbs(costFun, eta=kwargs["eta"])
+        return F_Gibbs(costFun, eta=kwargs["eta"] or 10)
     elif objFun.lower() == CVAR:
-        return F_CVaR(costFun, alpha=kwargs["alpha"])
+        return F_CVaR(costFun, alpha=kwargs["alpha"] or 0.2)
