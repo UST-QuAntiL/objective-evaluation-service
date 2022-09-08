@@ -130,9 +130,9 @@ dmypy.json
 .pyre/
 
 # Image files
-.png
-.jpg
-.svg
+*.png
+*.jpg
+*.svg
 
 #Intellij
 /.idea/*
