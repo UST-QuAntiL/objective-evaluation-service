@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from app.helperfunctions import takeSecond, takeFirst, figureToBase64, getSolutionString
+from app.helperfunctions import figureToBase64, getSolutionString
 from app.services.costFunctions import TspFunction
 import numpy as np
 import matplotlib
