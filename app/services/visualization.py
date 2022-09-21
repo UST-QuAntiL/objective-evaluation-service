@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from app.helperfunctions import figureToBase64, getSolutionString
+from app.helperfunctions import figure_to_base64, get_solution_string
 from app.services.costFunctions import TspFunction
 import numpy as np
 import matplotlib
@@ -32,7 +32,7 @@ class MaxCutVisualization(Visualization):
         node_size=600,
         font_size=12,
     ):
-        solution_string = getSolutionString(counts)
+        solution_string = get_solution_string(counts)
         figure = plt.figure()
 
         problem_instance_graph = nx.from_numpy_array(np.array(problem_instance))
@@ -82,7 +82,7 @@ class MaxCutVisualization(Visualization):
                 problem_instance_graph, pos, edge_labels=labels
             )
 
-        figure_base64 = figureToBase64(figure)
+        figure_base64 = figure_to_base64(figure)
         plt.close(figure)
         return figure_base64
 
@@ -183,7 +183,7 @@ class TspVisualization(Visualization):
                     )
 
             plt.axis("off")
-            figure_base64 = figureToBase64(figure)
+            figure_base64 = figure_to_base64(figure)
             plt.close(figure)
             return figure_base64
 
@@ -196,7 +196,7 @@ class TspVisualization(Visualization):
         n = len(problem_instance)
         vis.generate_instance(n)
 
-        solution_string = getSolutionString(counts)
+        solution_string = get_solution_string(counts)
         solution_path = cost_function.path_from_string(solution_string, n)
         # add last node as first to complete round trip
         solution_path = (solution_path[-1],) + tuple(solution_path)

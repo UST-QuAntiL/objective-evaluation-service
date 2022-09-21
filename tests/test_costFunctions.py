@@ -63,6 +63,46 @@ class FlaskClientTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         print(response.get_json())
 
+    def test_tsp2(self):
+        response = self.client.post(
+            "/objective/tsp",
+            data=json.dumps(
+                {
+                    "adj_matrix": [[0,9,4,15], [10,0,4,17], [1,11,0,3], [18,8,19,0]],
+                    "counts": {
+                        "0001010000101000": 3,
+                        "0010010010000001": 11,
+                        "0001100001000010": 1,
+                        "0001100000100100": 43,
+                        "0001001010000100": 41,
+                        "1000000100100100": 6,
+                        "0100001010000001": 41,
+                        "0100100000100001": 12,
+                        "0010010000011000": 58,
+                        "0001001001001000": 493,
+                        "1000010000010010": 20,
+                        "0001010010000010": 7,
+                        "0010000110000100": 76,
+                        "0010100000010100": 2,
+                        "0010000101001000": 3,
+                        "0100000100101000": 5,
+                        "1000001001000001": 1,
+                        "0100001000011000": 4,
+                        "0100100000010010": 41,
+                        "0010100001000001": 17,
+                        "1000010000100001": 74,
+                        "1000001000010100": 6,
+                        "1000000101000010": 59,
+                    },
+                    "objFun": "Expectation",
+                    "visualization": "True",
+                }
+            ),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+        print(response.get_json())
+
     def test_max_cut(self):
         response = self.client.post(
             "/objective/max-cut",

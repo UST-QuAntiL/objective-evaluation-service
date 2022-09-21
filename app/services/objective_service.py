@@ -1,3 +1,4 @@
+from app.helperfunctions import take_second, convert_cost_object_to_dict
 from app.model.objective_request import (
     TSPObjectiveEvaluationRequest,
     MaxCutObjectiveEvaluationRequest,
@@ -13,6 +14,7 @@ def generate_tsp_objective_response(input: TSPObjectiveEvaluationRequest):
         input.objFun, TSP, **input.objFun_hyperparameters
     )
     objective_value = objective_function.evaluate(input.counts, input.adj_matrix)
+    cost_dict = convert_cost_object_to_dict(objective_function.counts_cost)
 
     if input.visualization:
         graphic = TspVisualization().visualize(
@@ -22,7 +24,8 @@ def generate_tsp_objective_response(input: TSPObjectiveEvaluationRequest):
         graphic = None
 
     print("value", objective_value)
-    return ObjectiveResponse(objective_value, graphic, input)
+
+    return ObjectiveResponse(objective_value, cost_dict, graphic)
 
 
 def generate_max_cut_objective_response(input: MaxCutObjectiveEvaluationRequest):
@@ -30,6 +33,7 @@ def generate_max_cut_objective_response(input: MaxCutObjectiveEvaluationRequest)
         input.objFun, MAX_CUT, **input.objFun_hyperparameters
     )
     objective_value = objective_function.evaluate(input.counts, input.adj_matrix)
+    cost_dict = convert_cost_object_to_dict(objective_function.counts_cost)
 
     graphic = (
         MaxCutVisualization().visualize(
@@ -38,8 +42,9 @@ def generate_max_cut_objective_response(input: MaxCutObjectiveEvaluationRequest)
         if input.visualization
         else None
     )
+
     print("value", objective_value)
-    return ObjectiveResponse(objective_value, graphic, input)
+    return ObjectiveResponse(objective_value, cost_dict, graphic)
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):

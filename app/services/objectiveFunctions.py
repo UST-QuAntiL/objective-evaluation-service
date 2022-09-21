@@ -52,7 +52,7 @@ class F_CVaR(objectiveFunction):
 
     def evaluate(self, counts, problem_instance):
         self.counts_cost = self.cost_function.computeCosts(counts, problem_instance)
-        self.counts_cost.sort(key=takeThird, reverse=True)
+        self.counts_cost.sort(key=take_third, reverse=True)
         total_objective_value = 0
         alphaRemaining = np.ceil(self.alpha * np.sum(list(counts.values())))
         n_considered = alphaRemaining
