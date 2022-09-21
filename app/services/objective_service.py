@@ -1,6 +1,6 @@
 from app.model.objective_request import (
-    TSPObjectiveFunctionRequest,
-    MaxCutObjectiveFunctionRequest,
+    TSPObjectiveEvaluationRequest,
+    MaxCutObjectiveEvaluationRequest,
 )
 from app.model.objective_response import ObjectiveResponse
 from app.services.objectiveFunctions import F_CVaR, F_EE, F_Gibbs
@@ -8,7 +8,7 @@ from app.services.visualization import TspVisualization, MaxCutVisualization
 from app.constants import *
 
 
-def generate_tsp_objective_response(input: TSPObjectiveFunctionRequest):
+def generate_tsp_objective_response(input: TSPObjectiveEvaluationRequest):
     objective_function = getObjectiveFunction(
         input.objFun, TSP, **input.objFun_hyperparameters
     )
@@ -25,7 +25,7 @@ def generate_tsp_objective_response(input: TSPObjectiveFunctionRequest):
     return ObjectiveResponse(objective_value, graphic, input)
 
 
-def generate_max_cut_objective_response(input: MaxCutObjectiveFunctionRequest):
+def generate_max_cut_objective_response(input: MaxCutObjectiveEvaluationRequest):
     objective_function = getObjectiveFunction(
         input.objFun, MAX_CUT, **input.objFun_hyperparameters
     )

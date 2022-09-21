@@ -1,6 +1,6 @@
 from datetime import datetime
 import marshmallow as ma
-from .objective_request import TSPObjectiveFunctionRequestSchema
+from .objective_request import TSPObjectiveEvaluationRequestSchema
 
 
 class ObjectiveResponse:
@@ -24,5 +24,5 @@ class ObjectiveResponse:
 class ObjectiveResponseSchema(ma.Schema):
     objective_value = ma.fields.Float()
     visualization = ma.fields.String()
-    input = ma.fields.Nested(TSPObjectiveFunctionRequestSchema)
+    input = ma.fields.Nested(TSPObjectiveEvaluationRequestSchema)
     timestamp = ma.fields.String()

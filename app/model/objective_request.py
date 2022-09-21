@@ -3,7 +3,7 @@ from marshmallow import pre_load, ValidationError
 import numpy as np
 
 
-class TSPObjectiveFunctionRequest:
+class TSPObjectiveEvaluationRequest:
     def __init__(
         self, adj_matrix, counts, objFun, objFun_hyperparameters={}, visualization=False
     ):
@@ -14,7 +14,7 @@ class TSPObjectiveFunctionRequest:
         self.objFun_hyperparameters = objFun_hyperparameters
 
 
-class TSPObjectiveFunctionRequestSchema(ma.Schema):
+class TSPObjectiveEvaluationRequestSchema(ma.Schema):
     adj_matrix = ma.fields.List(ma.fields.List(ma.fields.Float()), required=True)
     counts = ma.fields.Dict(
         keys=ma.fields.Str(), values=ma.fields.Float(), required=True
@@ -24,7 +24,7 @@ class TSPObjectiveFunctionRequestSchema(ma.Schema):
     objFun_hyperparameters = ma.fields.Dict(keys=ma.fields.Str(), required=False)
 
 
-class MaxCutObjectiveFunctionRequest:
+class MaxCutObjectiveEvaluationRequest:
     def __init__(
         self, adj_matrix, counts, objFun, objFun_hyperparameters={}, visualization=False
     ):
@@ -35,7 +35,7 @@ class MaxCutObjectiveFunctionRequest:
         self.objFun_hyperparameters = objFun_hyperparameters
 
 
-class MaxCutObjectiveFunctionRequestSchema(ma.Schema):
+class MaxCutObjectiveEvaluationRequestSchema(ma.Schema):
     adj_matrix = ma.fields.List(ma.fields.List(ma.fields.Float()))
     counts = ma.fields.Dict(keys=ma.fields.Str(), values=ma.fields.Float())
     objFun = ma.fields.Str()

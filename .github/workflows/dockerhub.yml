@@ -25,18 +25,18 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build and push latest of objective function service
+      - name: Build and push latest of objective evaluation service
         if: ${{ steps.vars.outputs.tag == 'main' }}
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: planqk/objective-function-service:latest
+          tags: planqk/objective-evaluation-service:latest
 
-      - name: Build and push version of objective function service
+      - name: Build and push version of objective evaluation service
         if: ${{ steps.vars.outputs.tag != 'main' }}
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: planqk/objective-function-service:${{ steps.vars.outputs.tag }}
+          tags: planqk/objective-evaluation-service:${{ steps.vars.outputs.tag }}
