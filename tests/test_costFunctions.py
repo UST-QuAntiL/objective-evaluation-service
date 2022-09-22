@@ -68,7 +68,12 @@ class FlaskClientTestCase(unittest.TestCase):
             "/objective/tsp",
             data=json.dumps(
                 {
-                    "adj_matrix": [[0,9,4,15], [10,0,4,17], [1,11,0,3], [18,8,19,0]],
+                    "adj_matrix": [
+                        [0, 9, 4, 15],
+                        [10, 0, 4, 17],
+                        [1, 11, 0, 3],
+                        [18, 8, 19, 0],
+                    ],
                     "counts": {
                         "0001010000101000": 3,
                         "0010010010000001": 11,

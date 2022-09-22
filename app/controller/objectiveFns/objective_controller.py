@@ -37,7 +37,6 @@ def tsp(json: TSPObjectiveEvaluationRequest):
         )
 
 
-
 @blp.route("/max-cut", methods=["POST"])
 @blp.arguments(
     MaxCutObjectiveEvaluationRequestSchema,

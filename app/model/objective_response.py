@@ -3,6 +3,7 @@ import marshmallow as ma
 from .objective_request import TSPObjectiveEvaluationRequestSchema
 import json
 
+
 class ObjectiveResponse:
     def __init__(self, objective_value, costs, visualization):
         super().__init__()

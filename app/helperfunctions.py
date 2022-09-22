@@ -34,5 +34,8 @@ def figure_to_base64(fig):
 
 def convert_cost_object_to_dict(cost_object):
     sorted_costs = sorted(cost_object, key=take_second, reverse=True)
-    sorted_costs_dict = [{'bitstring': tup[0], 'num_occurrences': tup[1], 'cost': tup[2]} for tup in sorted_costs]
+    sorted_costs_dict = [
+        {"bitstring": tup[0], "num_occurrences": tup[1], "cost": tup[2]}
+        for tup in sorted_costs
+    ]
     return sorted_costs_dict
