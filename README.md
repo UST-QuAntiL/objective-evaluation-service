@@ -39,7 +39,7 @@ Then the application can be accessed via: [http://127.0.0.1:5072](http://127.0.0
 ## API Documentation
 
 The objective evaluation service provides a Swagger UI, specifying the request schemas and showcasing exemplary requests for all API endpoints.
- * Swagger UI: [http://127.0.0.1:5072/app/swagger-ui](http://127.0.0.1:5072/app/swagger-ui).
+ * Swagger UI: [http://127.0.0.1:5072/api/swagger-ui](http://127.0.0.1:5072/api/swagger-ui).
 
 ## Developer Guide
 
