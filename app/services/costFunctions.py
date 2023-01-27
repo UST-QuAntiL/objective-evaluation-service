@@ -22,6 +22,8 @@ class MaxCutFunction(CostFunction):
         self.cached_cut_size = {}
         pass
 
+    # Computes each bitstrings cost and caches it
+    # Costs are NEGATED such that they can be minimized
     def evaluate(self, bitstring, problem_instance, **kwargs):
         problem_instance = np.array(problem_instance)
         n_vertices = problem_instance.shape[0]
@@ -38,8 +40,8 @@ class MaxCutFunction(CostFunction):
         for i in range(n_vertices):
             for j in range(i):
                 C += problem_instance[i, j] * (not bitstring[i] == bitstring[j])
-        self.cached_cut_size[cut_string] = C
-        return C
+        self.cached_cut_size[cut_string] = -C
+        return -C
 
 
 class TspFunction(CostFunction):
