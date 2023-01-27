@@ -48,7 +48,7 @@ def generate_max_cut_objective_response(input: MaxCutObjectiveEvaluationRequest)
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):
-    if objFun.lower() == EXPECTATION:
+    if EXPECTATION in objFun.lower():
         return F_EE(costFun)
     elif objFun.lower() == GIBBS:
         return F_Gibbs(costFun, eta=kwargs["eta"] or 10)
