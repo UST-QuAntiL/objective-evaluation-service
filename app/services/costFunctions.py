@@ -93,7 +93,7 @@ class KnapsackFunction(CostFunction):
 
         problem = Knapsack(values=values, weights=weights, max_weight=max_weights)
         most_likely_result = problem.sample_most_likely(bitstring)
-        print("Most likly result: ", most_likely_result)
+        print("Most likely result: ", most_likely_result)
         result_list = problem.interpret(most_likely_result)
         print("List of items to use: ", result_list)
 
