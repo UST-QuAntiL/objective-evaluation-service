@@ -11,6 +11,8 @@ class objectiveFunction(ABC):
             self.cost_function = TspFunction()
         elif cost_function.lower() == MAX_CUT:
             self.cost_function = MaxCutFunction()
+        elif cost_function.lower() == KNAPSACK:
+            self.cost_function = KNAPSACK()
 
         self.counts_cost = None
         pass

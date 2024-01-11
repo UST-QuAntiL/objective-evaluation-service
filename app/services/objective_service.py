@@ -2,6 +2,7 @@ from app.helperfunctions import take_second, convert_cost_object_to_dict
 from app.model.objective_request import (
     TSPObjectiveEvaluationRequest,
     MaxCutObjectiveEvaluationRequest,
+    KnapsackObjectiveEvaluationRequest,
 )
 from app.model.objective_response import ObjectiveResponse
 from app.services.objectiveFunctions import F_CVaR, F_EE, F_Gibbs
@@ -45,6 +46,17 @@ def generate_max_cut_objective_response(input: MaxCutObjectiveEvaluationRequest)
 
     print("value", objective_value)
     return ObjectiveResponse(objective_value, cost_dict, graphic)
+
+
+def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationRequest):
+    objective_function = getObjectiveFunction(
+        input.objFun, KNAPSACK, **input.objFun_hyperparameters
+    )
+    objective_value = objective_function.evaluate(input.counts, {"items": input.items, "max_weight": input.max_weights})
+    cost_dict = convert_cost_object_to_dict(objective_function.counts_cost)
+
+    print("value", objective_value)
+    return ObjectiveResponse(objective_value, cost_dict, None)
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):

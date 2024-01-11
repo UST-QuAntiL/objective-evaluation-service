@@ -74,3 +74,14 @@ class TspFunction(CostFunction):
         for i, j in zip(path[:-1], path[1:]):
             length += problem_instance[i][j]
         return length
+
+
+class KnapsackFunction(CostFunction):
+    def __init__(self):
+        pass
+
+    def evaluate(self, bitstring, problem_instance, **kwargs):
+        print("Evaluating knapsack results...")
+
+        # geht eh net --> -100000
+        return -100000
