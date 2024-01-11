@@ -1,3 +1,4 @@
+from qiskit_optimization.applications import Knapsack
 from abc import ABC, abstractmethod
 import numpy as np
 
@@ -82,6 +83,20 @@ class KnapsackFunction(CostFunction):
 
     def evaluate(self, bitstring, problem_instance, **kwargs):
         print("Evaluating knapsack results...")
+        items = problem_instance.get("items")
+        values = [d["value"] for d in items]
+        print("Values: ", values)
+        weights = [d["weight"] for d in items]
+        print("Weights: ", weights)
+        max_weights = problem_instance.get("max_weights")
+        print("Max weight: ", max_weights)
 
-        # geht eh net --> -100000
+        problem = Knapsack(values=values, weights=weights, max_weight=max_weights)
+        most_likely_result = problem.sample_most_likely(bitstring)
+        print("Most likly result: ", most_likely_result)
+        result_list = problem.interpret(most_likely_result)
+        print("List of items to use: ", result_list)
+
+        # TODO: calculate costs
+
         return -100000
