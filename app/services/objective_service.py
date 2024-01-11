@@ -52,7 +52,9 @@ def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationReque
     objective_function = getObjectiveFunction(
         input.objFun, KNAPSACK, **input.objFun_hyperparameters
     )
-    objective_value = objective_function.evaluate(input.counts, {"items": input.items, "max_weight": input.max_weights})
+    objective_value = objective_function.evaluate(
+        input.counts, {"items": input.items, "max_weight": input.max_weights}
+    )
     cost_dict = convert_cost_object_to_dict(objective_function.counts_cost)
 
     print("value", objective_value)

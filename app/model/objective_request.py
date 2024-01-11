@@ -47,7 +47,13 @@ class MaxCutObjectiveEvaluationRequestSchema(ma.Schema):
 
 class KnapsackObjectiveEvaluationRequest(ObjectiveEvaluationRequest):
     def __init__(
-            self, items, max_weights, counts, objFun, objFun_hyperparameters={}, visualization=False
+        self,
+        items,
+        max_weights,
+        counts,
+        objFun,
+        objFun_hyperparameters={},
+        visualization=False,
     ):
         super().__init__(counts, objFun, objFun_hyperparameters, visualization)
         self.items = items
@@ -55,7 +61,10 @@ class KnapsackObjectiveEvaluationRequest(ObjectiveEvaluationRequest):
 
 
 class KnapsackObjectiveEvaluationRequestSchema(ma.Schema):
-    items = ma.fields.List(ma.fields.Dict(keys=ma.fields.Str(), values=ma.fields.Float(), required=True), required=True)
+    items = ma.fields.List(
+        ma.fields.Dict(keys=ma.fields.Str(), values=ma.fields.Float(), required=True),
+        required=True,
+    )
     max_weights = ma.fields.Float(required=True)
     counts = ma.fields.Dict(
         keys=ma.fields.Str(), values=ma.fields.Float(), required=True
