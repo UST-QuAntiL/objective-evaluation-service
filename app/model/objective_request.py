@@ -56,7 +56,7 @@ class KnapsackObjectiveEvaluationRequest(ObjectiveEvaluationRequest):
 
 class KnapsackObjectiveEvaluationRequestSchema(ma.Schema):
     items = ma.fields.List(ma.fields.Dict(keys=ma.fields.Str(), values=ma.fields.Float(), required=True), required=True)
-    max_weights = ma.fields.Float()(required=True)
+    max_weights = ma.fields.Float(required=True)
     counts = ma.fields.Dict(
         keys=ma.fields.Str(), values=ma.fields.Float(), required=True
     )
