@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from app.helperfunctions import *
 import numpy as np
-from app.services.costFunctions import TspFunction, MaxCutFunction
+from app.services.costFunctions import TspFunction, MaxCutFunction, KnapsackFunction
 from app.constants import *
 
 
@@ -12,7 +12,7 @@ class objectiveFunction(ABC):
         elif cost_function.lower() == MAX_CUT:
             self.cost_function = MaxCutFunction()
         elif cost_function.lower() == KNAPSACK:
-            self.cost_function = KNAPSACK()
+            self.cost_function = KnapsackFunction()
 
         self.counts_cost = None
         pass
