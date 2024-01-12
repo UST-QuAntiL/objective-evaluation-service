@@ -82,9 +82,11 @@ def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationReque
         objective_value += input.max_weights - overall_weight
 
     print("Objective value: ", objective_value)
-    return ObjectiveResponse(
-        objective_value, {str(most_likely_result): objective_value}, None
-    )
+    result = "".join(str(x) for x in most_likely_result)
+    print("Result bit string: ", result)
+    costs = {result: objective_value}
+    print("Costs: ", costs)
+    return ObjectiveResponse(objective_value, costs, None)
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):
