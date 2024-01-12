@@ -63,11 +63,26 @@ def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationReque
     result_list = problem.interpret(most_likely_result)
     print("List of items to use: ", result_list)
 
-    # TODO: calculate costs
-    objective_value = -100000
+    objective_value = sum(values)
+    overall_weight = 0
+    for i in range(len(result_list)):
+        print("Selected package with ID: ", i)
 
-    print("value: ", objective_value)
-    return ObjectiveResponse(objective_value, None, None)
+        if i > (len(values) - 1):
+            print("Package with index not available...")
+            objective_value += 50
+        else:
+            print("Value: ", values[i])
+            objective_value -= values[i]
+            overall_weight += weights[i]
+
+    print ("Overall weight: ", overall_weight)
+    if overall_weight > input.max_weights:
+        print ("Penalty as weight is higher than allowed max weight!")
+        objective_value += input.max_weights - overall_weight
+
+    print("Objective value: ", objective_value)
+    return ObjectiveResponse(objective_value, {most_likely_result: objective_value}, None)
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):
