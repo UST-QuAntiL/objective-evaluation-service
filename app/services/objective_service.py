@@ -8,6 +8,7 @@ from app.model.objective_response import ObjectiveResponse
 from app.services.objectiveFunctions import F_CVaR, F_EE, F_Gibbs
 from app.services.visualization import TspVisualization, MaxCutVisualization
 from app.constants import *
+from qiskit_optimization.applications import Knapsack
 
 
 def generate_tsp_objective_response(input: TSPObjectiveEvaluationRequest):
@@ -49,16 +50,24 @@ def generate_max_cut_objective_response(input: MaxCutObjectiveEvaluationRequest)
 
 
 def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationRequest):
-    objective_function = getObjectiveFunction(
-        input.objFun, KNAPSACK, **input.objFun_hyperparameters
-    )
-    objective_value = objective_function.evaluate(
-        input.counts, {"items": input.items, "max_weight": input.max_weights}
-    )
-    cost_dict = convert_cost_object_to_dict(objective_function.counts_cost)
+    print("Evaluating knapsack results...")
+    values = [d["value"] for d in input.items]
+    print("Values: ", values)
+    weights = [d["weight"] for d in input.items]
+    print("Weights: ", weights)
+    print("Max weight: ", input.max_weights)
 
-    print("value", objective_value)
-    return ObjectiveResponse(objective_value, cost_dict, None)
+    problem = Knapsack(values=values, weights=weights, max_weight=input.max_weights)
+    most_likely_result = problem.sample_most_likely(input.counts)
+    print("Most likely result: ", most_likely_result)
+    result_list = problem.interpret(most_likely_result)
+    print("List of items to use: ", result_list)
+
+    # TODO: calculate costs
+    objective_value = -100000
+
+    print("value: ", objective_value)
+    return ObjectiveResponse(objective_value, None, None)
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):
