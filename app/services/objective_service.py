@@ -83,7 +83,7 @@ def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationReque
 
     print("Objective value: ", objective_value)
     return ObjectiveResponse(
-        objective_value, {most_likely_result: objective_value}, None
+        objective_value, {str(most_likely_result): objective_value}, None
     )
 
 
