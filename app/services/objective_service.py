@@ -76,13 +76,15 @@ def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationReque
             objective_value -= values[i]
             overall_weight += weights[i]
 
-    print ("Overall weight: ", overall_weight)
+    print("Overall weight: ", overall_weight)
     if overall_weight > input.max_weights:
-        print ("Penalty as weight is higher than allowed max weight!")
+        print("Penalty as weight is higher than allowed max weight!")
         objective_value += input.max_weights - overall_weight
 
     print("Objective value: ", objective_value)
-    return ObjectiveResponse(objective_value, {most_likely_result: objective_value}, None)
+    return ObjectiveResponse(
+        objective_value, {most_likely_result: objective_value}, None
+    )
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):
