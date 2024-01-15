@@ -7,8 +7,9 @@ from app.model.objective_request import (
     TSPObjectiveEvaluationRequestSchema,
     MaxCutObjectiveEvaluationRequest,
     MaxCutObjectiveEvaluationRequestSchema,
+    KnapsackObjectiveEvaluationRequest,
+    KnapsackObjectiveEvaluationRequestSchema,
 )
-
 
 blp = Blueprint(
     "objective",
@@ -66,4 +67,34 @@ def max_cut(json: MaxCutObjectiveEvaluationRequest):
     if json:
         return objective_service.generate_max_cut_objective_response(
             MaxCutObjectiveEvaluationRequest(**json)
+        )
+
+
+@blp.route("/knapsack", methods=["POST"])
+@blp.arguments(
+    KnapsackObjectiveEvaluationRequestSchema,
+    example={
+        "items": [
+            {"value": 5, "weight": 2},
+            {"value": 2, "weight": 1},
+            {"value": 3, "weight": 2},
+        ],
+        "max_weights": 20,
+        "counts": {
+            "100001": 10,
+            "011110": 20,
+            "100000": 30,
+            "010110": 40,
+            "110000": 50,
+        },
+        "objFun": "Expectation",
+        "visualization": "True",
+    },
+)
+@blp.response(200, ObjectiveResponseSchema)
+def max_cut(json: KnapsackObjectiveEvaluationRequest):
+    print(json)
+    if json:
+        return objective_service.generate_knapsack_objective_response(
+            KnapsackObjectiveEvaluationRequest(**json)
         )
