@@ -86,7 +86,7 @@ def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationReque
     print("Result bit string: ", result)
     costs = {result: objective_value}
     print("Costs: ", costs)
-    return ObjectiveResponse(objective_value, costs, None)
+    return ObjectiveResponse(objective_value, [costs], None)
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):
