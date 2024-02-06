@@ -1,3 +1,6 @@
+from fractions import Fraction
+
+
 def take_first(elem):
     return elem[0]
 
@@ -39,3 +42,26 @@ def convert_cost_object_to_dict(cost_object):
         for tup in sorted_costs
     ]
     return sorted_costs_dict
+
+
+def find_period(result_list: [(int, int, int)], n: int, p: int, g: int) -> int:
+    """The order of the generator is not given, it has to be determined.
+    The list of results for the whole circuit will be used, since the
+    measurement of stage1 allows for phase estimation of the operator
+    (similar to Shor's algorithm for prime factorization)."""
+    smallest_fitting_denominator = (
+        p + 1
+    )  # init to p+1 (sth larger than the real result)
+    for (y1, _, _) in result_list:
+        meas_div = y1 / (2**n)
+        frac_meas = Fraction(meas_div).limit_denominator(p - 1)
+
+        # check if denominator fits
+        r_candidate = frac_meas.denominator
+        if g**r_candidate % p == 1:
+            # fits
+            if r_candidate < smallest_fitting_denominator:
+                smallest_fitting_denominator = r_candidate
+
+    print("Found r=", smallest_fitting_denominator)
+    return smallest_fitting_denominator

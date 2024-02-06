@@ -202,18 +202,9 @@ class FlaskClientTestCase(unittest.TestCase):
             data=json.dumps(
                 {
                     "items": [
-                        {
-                            "value": 5,
-                            "weight": 2
-                        },
-                        {
-                            "value": 2,
-                            "weight": 1
-                        },
-                        {
-                            "value": 3,
-                            "weight": 2
-                        }
+                        {"value": 5, "weight": 2},
+                        {"value": 2, "weight": 1},
+                        {"value": 3, "weight": 2},
                     ],
                     "max_weights": 20,
                     "counts": {
@@ -221,10 +212,10 @@ class FlaskClientTestCase(unittest.TestCase):
                         "100001": 10,
                         "110000": 50,
                         "011110": 20,
-                        "010110": 40
+                        "010110": 40,
                     },
                     "objFun": "Expectation",
-                    "visualization": "True"
+                    "visualization": "True",
                 }
             ),
             content_type="application/json",
