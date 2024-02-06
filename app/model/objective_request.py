@@ -72,3 +72,38 @@ class KnapsackObjectiveEvaluationRequestSchema(ma.Schema):
     objFun = ma.fields.Str(required=True)
     visualization = ma.fields.Boolean(required=False)
     objFun_hyperparameters = ma.fields.Dict(keys=ma.fields.Str(), required=False)
+
+
+class ShorDiscreteLogObjectiveEvaluationRequest(ObjectiveEvaluationRequest):
+    def __init__(
+        self,
+        b,
+        g,
+        p,
+        counts,
+        objFun,
+        r=-1,
+        n=-1,
+        objFun_hyperparameters={},
+        visualization=False,
+    ):
+        super().__init__(counts, objFun, objFun_hyperparameters, visualization)
+        self.b = b
+        self.g = g
+        self.p = p
+        self.n = n
+        self.r = r
+
+
+class ShorDiscreteLogObjectiveEvaluationRequestSchema(ma.Schema):
+    b = ma.fields.Integer(required=True)
+    g = ma.fields.Integer(required=True)
+    p = ma.fields.Integer(required=True)
+    n = ma.fields.Integer(required=False)
+    r = ma.fields.Integer(required=False)
+    counts = ma.fields.Dict(
+        keys=ma.fields.Str(), values=ma.fields.Float(), required=True
+    )
+    objFun = ma.fields.Str(required=True)
+    visualization = ma.fields.Boolean(required=False)
+    objFun_hyperparameters = ma.fields.Dict(keys=ma.fields.Str(), required=False)

@@ -9,6 +9,8 @@ from app.model.objective_request import (
     MaxCutObjectiveEvaluationRequestSchema,
     KnapsackObjectiveEvaluationRequest,
     KnapsackObjectiveEvaluationRequestSchema,
+    ShorDiscreteLogObjectiveEvaluationRequestSchema,
+    ShorDiscreteLogObjectiveEvaluationRequest
 )
 
 blp = Blueprint(
@@ -97,4 +99,32 @@ def max_cut(json: KnapsackObjectiveEvaluationRequest):
     if json:
         return objective_service.generate_knapsack_objective_response(
             KnapsackObjectiveEvaluationRequest(**json)
+        )
+
+
+@blp.route("/shor/discreteLog", methods=["POST"])
+@blp.arguments(
+    ShorDiscreteLogObjectiveEvaluationRequestSchema,
+    example={
+        "b": 2,
+        "g": 5,
+        "p": 7,
+        "n": -1,
+        "counts": {
+            "10000110000101": 10,
+            "01100110000110": 20,
+            "10000011000000": 30,
+            "01001100000110": 40,
+            "11000011000000": 50,
+        },
+        "objFun": "Expectation",
+        "visualization": "False",
+    },
+)
+@blp.response(200, ObjectiveResponseSchema)
+def max_cut(json: ShorDiscreteLogObjectiveEvaluationRequest):
+    print(json)
+    if json:
+        return objective_service.generate_knapsack_objective_response(
+            ShorDiscreteLogObjectiveEvaluationRequest(**json)
         )

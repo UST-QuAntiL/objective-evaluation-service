@@ -3,6 +3,7 @@ from app.model.objective_request import (
     TSPObjectiveEvaluationRequest,
     MaxCutObjectiveEvaluationRequest,
     KnapsackObjectiveEvaluationRequest,
+    ShorDiscreteLogObjectiveEvaluationRequest
 )
 from app.model.objective_response import ObjectiveResponse
 from app.services.objectiveFunctions import F_CVaR, F_EE, F_Gibbs
@@ -87,6 +88,26 @@ def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationReque
     costs = {result: objective_value}
     print("Costs: ", costs)
     return ObjectiveResponse(objective_value, [costs], None)
+
+
+
+def generate_shor_discrete_log_objective_response(input: ShorDiscreteLogObjectiveEvaluationRequest):
+    objective_function = getObjectiveFunction(
+        input.objFun, MAX_CUT, **input.objFun_hyperparameters
+    )
+    objective_value = objective_function.evaluate(input.counts, input.adj_matrix)
+    cost_dict = convert_cost_object_to_dict(objective_function.counts_cost)
+
+    graphic = (
+        MaxCutVisualization().visualize(
+            counts=objective_function.counts_cost, problem_instance=input.adj_matrix
+        )
+        if input.visualization
+        else None
+    )
+
+    print("value", objective_value)
+    return ObjectiveResponse(objective_value, cost_dict, graphic)
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):
