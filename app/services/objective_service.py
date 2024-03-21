@@ -3,7 +3,7 @@ from app.model.objective_request import (
     TSPObjectiveEvaluationRequest,
     MaxCutObjectiveEvaluationRequest,
     KnapsackObjectiveEvaluationRequest,
-    ShorDiscreteLogObjectiveEvaluationRequest
+    ShorDiscreteLogObjectiveEvaluationRequest,
 )
 from app.model.objective_response import ObjectiveResponse
 from app.services.objectiveFunctions import F_CVaR, F_EE, F_Gibbs
@@ -90,8 +90,9 @@ def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationReque
     return ObjectiveResponse(objective_value, [costs], None)
 
 
-
-def generate_shor_discrete_log_objective_response(input: ShorDiscreteLogObjectiveEvaluationRequest):
+def generate_shor_discrete_log_objective_response(
+    input: ShorDiscreteLogObjectiveEvaluationRequest,
+):
     objective_function = getObjectiveFunction(
         input.objFun, MAX_CUT, **input.objFun_hyperparameters
     )

@@ -10,7 +10,7 @@ from app.model.objective_request import (
     KnapsackObjectiveEvaluationRequest,
     KnapsackObjectiveEvaluationRequestSchema,
     ShorDiscreteLogObjectiveEvaluationRequestSchema,
-    ShorDiscreteLogObjectiveEvaluationRequest
+    ShorDiscreteLogObjectiveEvaluationRequest,
 )
 
 blp = Blueprint(
