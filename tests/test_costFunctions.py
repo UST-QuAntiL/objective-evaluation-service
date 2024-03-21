@@ -195,3 +195,30 @@ class FlaskClientTestCase(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
         print(response.get_json())
+
+    def test_knapsack(self):
+        response = self.client.post(
+            "/objective/knapsack",
+            data=json.dumps(
+                {
+                    "items": [
+                        {"value": 5, "weight": 2},
+                        {"value": 2, "weight": 1},
+                        {"value": 3, "weight": 2},
+                    ],
+                    "max_weights": 20,
+                    "counts": {
+                        "100000": 30,
+                        "100001": 10,
+                        "110000": 50,
+                        "011110": 20,
+                        "010110": 40,
+                    },
+                    "objFun": "Expectation",
+                    "visualization": "True",
+                }
+            ),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+        print(response.get_json())
