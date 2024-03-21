@@ -1,4 +1,4 @@
-from app.helperfunctions import take_second, convert_cost_object_to_dict
+from app.helperfunctions import take_second, convert_cost_object_to_dict, find_period
 from app.model.objective_request import (
     TSPObjectiveEvaluationRequest,
     MaxCutObjectiveEvaluationRequest,
@@ -10,6 +10,8 @@ from app.services.objectiveFunctions import F_CVaR, F_EE, F_Gibbs
 from app.services.visualization import TspVisualization, MaxCutVisualization
 from app.constants import *
 from qiskit_optimization.applications import Knapsack
+import math
+import numpy as np
 
 
 def generate_tsp_objective_response(input: TSPObjectiveEvaluationRequest):
@@ -93,22 +95,55 @@ def generate_knapsack_objective_response(input: KnapsackObjectiveEvaluationReque
 def generate_shor_discrete_log_objective_response(
     input: ShorDiscreteLogObjectiveEvaluationRequest,
 ):
-    objective_function = getObjectiveFunction(
-        input.objFun, MAX_CUT, **input.objFun_hyperparameters
-    )
-    objective_value = objective_function.evaluate(input.counts, input.adj_matrix)
-    cost_dict = convert_cost_object_to_dict(objective_function.counts_cost)
+    if input.n == -1:
+        n = math.ceil(math.log(input.p, 2))
+    else:
+        n = input.n
+    res = list()
+    print("executed circuit")
+    for result in input.counts.keys():
+        # split result measurements
+        result_s = result.split(" ")
+        m_stage1 = int(result_s[1], 2)
+        m_stage2 = int(result_s[0], 2)
 
-    graphic = (
-        MaxCutVisualization().visualize(
-            counts=objective_function.counts_cost, problem_instance=input.adj_matrix
-        )
-        if input.visualization
-        else None
-    )
+        res.append((m_stage1, m_stage2, input.counts[result]))
 
-    print("value", objective_value)
-    return ObjectiveResponse(objective_value, cost_dict, graphic)
+    num_fail = 0
+    num_success = 0
+
+    correct_m = -1
+
+    for (y1, y2, freq) in res:
+
+        # period has to be calculated
+        r = find_period(res, n, input.p, input.g)
+
+        # k is inferred from the measurement result from first stage
+        k = int(round((y1 * r) / (2**n), 0))
+        print("k = ", k)
+
+        # m (the discrete log) is calculated by using the congruence:
+        # ((km mod r)/r)*2^n = m_stage2
+        # v = m_stage2*r/2^n
+        v = (y2 * r) / (2**n)
+        # print("v=", v)  # = km mod r
+
+        # k inverse exists?
+        if np.gcd(k, r) == 1:
+            kinv = pow(k, -1, r)
+            # print("kInv=", kinv)
+            m = int(round(v * kinv % r, 0))
+            # print("found m=", m)
+
+            # check if this m actually fits
+            if (input.g**m % input.p) == input.b:
+                correct_m = m
+
+    graphic = None
+
+    print("calculated m ", correct_m)
+    return ObjectiveResponse(correct_m, {}, graphic)
 
 
 def getObjectiveFunction(objFun, costFun, **kwargs):
