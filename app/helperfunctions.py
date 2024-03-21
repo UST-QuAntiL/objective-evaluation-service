@@ -53,12 +53,12 @@ def find_period(result_list: [(int, int, int)], n: int, p: int, g: int) -> int:
         p + 1
     )  # init to p+1 (sth larger than the real result)
     for (y1, _, _) in result_list:
-        meas_div = y1 / (2**n)
+        meas_div = y1 / (2 ** n)
         frac_meas = Fraction(meas_div).limit_denominator(p - 1)
 
         # check if denominator fits
         r_candidate = frac_meas.denominator
-        if g**r_candidate % p == 1:
+        if g ** r_candidate % p == 1:
             # fits
             if r_candidate < smallest_fitting_denominator:
                 smallest_fitting_denominator = r_candidate

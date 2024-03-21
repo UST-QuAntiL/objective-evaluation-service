@@ -120,13 +120,13 @@ def generate_shor_discrete_log_objective_response(
         r = find_period(res, n, input.p, input.g)
 
         # k is inferred from the measurement result from first stage
-        k = int(round((y1 * r) / (2**n), 0))
+        k = int(round((y1 * r) / (2 ** n), 0))
         print("k = ", k)
 
         # m (the discrete log) is calculated by using the congruence:
         # ((km mod r)/r)*2^n = m_stage2
         # v = m_stage2*r/2^n
-        v = (y2 * r) / (2**n)
+        v = (y2 * r) / (2 ** n)
         # print("v=", v)  # = km mod r
 
         # k inverse exists?
@@ -137,7 +137,7 @@ def generate_shor_discrete_log_objective_response(
             # print("found m=", m)
 
             # check if this m actually fits
-            if (input.g**m % input.p) == input.b:
+            if (input.g ** m % input.p) == input.b:
                 correct_m = m
 
     graphic = None
