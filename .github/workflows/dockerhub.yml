@@ -2,9 +2,7 @@ name: Push docker images to Dockerhub
 
 on:
   push:
-    branches:
-      - main
-      - "arm-support"
+    branches: main
     tags:
       - "v*.*.*"
 
